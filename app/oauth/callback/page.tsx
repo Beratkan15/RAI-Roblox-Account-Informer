@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Beams from "@/components/Beams";
 import { CheckCircle2, Copy, XCircle } from "lucide-react";
 
-export default function OAuthCallback() {
+function OAuthCallbackContent() {
     const searchParams = useSearchParams();
     const [copied, setCopied] = useState(false);
     const [fullUrl, setFullUrl] = useState('');
@@ -106,5 +106,17 @@ export default function OAuthCallback() {
                 </div>
             </div>
         </main>
+    );
+}
+
+export default function OAuthCallback() {
+    return (
+        <Suspense fallback={
+            <div className="flex min-h-screen items-center justify-center bg-black">
+                <p className="text-white">Yükleniyor...</p>
+            </div>
+        }>
+            <OAuthCallbackContent />
+        </Suspense>
     );
 }
